@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AFSÜ UZEM Oyun Merkezi</title>
+    <title> UZEM Oyun Merkezi</title>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -19,7 +19,7 @@
 <body>
 
 <nav class="navbar">
-    <div class="nav-brand">🎮 UZEM Oyun Merkezi </div>
+    <div class="nav-brand">🎮 UZEM GAME HUB</div>
     
     <div style="display: flex; align-items: center; gap: 15px;">
         
@@ -31,13 +31,13 @@
             👤 <span id="current-player-name">Misafir</span>
         </div>
 
-        <button class="home-btn" style="display:none;" onclick="if(confirm('Ana sayfaya dönmek istiyor musun?')) goToScreen('screen-')">🏠 Oyun Seçimi</button>
+        <button class="home-btn" style="display:none;" onclick="if(confirm('Ana sayfaya dönmek istiyor musun?')) goToScreen('screen-hub')">🏠 Oyun Seçimi</button>
     </div>
     </nav>
 
-    <div id="screen-" class="screen active">
-        <h2 class="-title">Hangi Oyunu Hazırlamak İstersin?</h2>
-        <div class="-grid">
+    <div id="screen-hub" class="screen active">
+        <h2 class="hub-title">Hangi Oyunu Hazırlamak İstersin?</h2>
+        <div class="hub-grid">
             <div class="game-card" onclick="openEditor('quiz')">
                 <div class="card-img">🏆</div>
                 <div class="card-body"><div class="card-title">Bilgi Yarışması</div><p>Çoktan seçmeli veya klasik sorular.</p></div>
@@ -183,7 +183,7 @@
     </div>
     
     <div style="text-align: center; color: #5a6b82; font-size: 0.8rem; padding: 20px 0 10px 0; margin-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.05);">
-        Design & Developed by Abdullah CİHAN |  UZEM Oyun Merkezi © 2025
+        Design & Developed by Abdullah CİHAN |  UZEM Game Hub © 2025
     </div>
 
     <script src="js/games/quiz.js"></script>
@@ -199,4 +199,3 @@
 
 </body>
 </html>
-
