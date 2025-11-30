@@ -1,0 +1,143 @@
+/* =========================================
+   css/games/match.css - EŞLEŞTİRME OYUNU
+   ========================================= */
+
+.match-grid {
+    display: grid;
+    /* Mobilde daha iyi sığması için min-width'i biraz düşürdük */
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 15px; 
+    max-width: 1000px; 
+    margin: 0 auto;
+    padding-bottom: 60px; /* Alt kısımdan mesafe */
+    perspective: 1000px; /* 3D efektler için derinlik */
+}
+
+.match-card {
+    /* Modern koyu gradyan arka plan */
+    background: linear-gradient(145deg, #1e293b, #0f172a);
+    height: 110px; 
+    border-radius: 16px;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    text-align: center; 
+    padding: 10px;
+    
+    /* Tipografi */
+    font-family: 'Fredoka', sans-serif; 
+    font-size: 1.1rem; 
+    font-weight: 600;
+    color: #cbd5e1;
+    
+    /* Kenarlık ve Gölge */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    
+    cursor: pointer; 
+    user-select: none; /* Metin seçilmiesin */
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Yaylanma efekti */
+    position: relative;
+    overflow: hidden;
+}
+
+/* Kartın üzerine gelince */
+.match-card:hover { 
+    transform: translateY(-5px); 
+    background: #334155;
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+    color: white;
+}
+
+/* Kart Seçildiğinde (Aktif) */
+.match-card.selected {
+    background: var(--primary);
+    border-color: #818cf8;
+    color: white;
+    /* Hafif 3D dönüş efekti */
+    transform: scale(1.05) rotateY(10deg);
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+    z-index: 10;
+}
+
+/* css/games/match.css Dosyasındaki .matched sınıfı */
+
+/* css/games/match.css */
+
+.match-card.matched {
+    opacity: 0;          /* Tamamen görünmez yap */
+    transform: scale(0); /* Küçülterek yok et */
+    pointer-events: none; /* Tıklanmasını engelle */
+    transition: all 0.5s ease; /* Yarım saniyede kaybolsun */
+    cursor: default;
+}
+
+/* Yanlış Eşleşme (Hata) */
+.match-card.wrong {
+    background: var(--danger);
+    border-color: #f87171;
+    color: white;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
+    animation: shake 0.4s;
+}
+
+/* Zaman Sayacı (HUD Tarzı) */
+.timer-badge {
+    background: rgba(15, 23, 42, 0.8);
+    padding: 8px 25px; 
+    border-radius: 30px; 
+    font-family: 'Righteous', monospace; 
+    font-size: 1.6rem;
+    color: #fbbf24; 
+    border: 2px solid rgba(251, 191, 36, 0.3);
+    box-shadow: 0 0 15px rgba(251, 191, 36, 0.1);
+    text-shadow: 0 0 5px rgba(251, 191, 36, 0.5);
+    backdrop-filter: blur(5px);
+}
+
+/* Titreme Animasyonu */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-8px); }
+    80% { transform: translateX(8px); }
+}
+
+/* =========================================
+   EXCEL YÜKLEME BUTONU EKLEMELERİ
+   ========================================= */
+
+.match-card.excel-upload-btn {
+    flex-direction: column; /* İkon ve yazıyı alt alta getirir */
+    gap: 8px; /* İkon ile yazı arası boşluk */
+    border: 1px dashed rgba(46, 204, 113, 0.5); /* Kesik çizgili yeşil kenarlık (Opsiyonel) */
+}
+
+/* İkonun rengi */
+.match-card.excel-upload-btn svg {
+    filter: drop-shadow(0 0 5px rgba(46, 204, 113, 0.4)); /* Hafif neon parlaması */
+    transition: transform 0.3s ease;
+}
+
+/* Kartın üzerine gelince (Hover) ikon hareketi */
+.match-card.excel-upload-btn:hover svg {
+    transform: translateY(-3px) scale(1.1);
+}
+
+/* Yazı Rengi */
+.match-card.excel-upload-btn span {
+    color: #2ecc71; /* Excel Yeşili */
+    font-size: 0.9rem;
+}
+
+/* Yükleme Oku Animasyonu (Opsiyonel - Dikkat çekmek için) */
+@keyframes uploadBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+.match-card.excel-upload-btn svg path:last-child {
+    animation: uploadBounce 1.5s infinite;
+}

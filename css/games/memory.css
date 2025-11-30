@@ -1,0 +1,88 @@
+/* =========================================
+   css/games/memory.css - MODERN HAFIZA OYUNU
+   ========================================= */
+
+.memory-grid {
+    display: grid;
+    /* Kartlar ekran boyutuna göre otomatik sığsın */
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 15px;
+    max-width: 900px;
+    margin: 0 auto;
+    perspective: 1000px; /* 3D Derinlik */
+    padding-bottom: 50px;
+}
+
+/* Kartın Dış Çerçevesi */
+.mem-card {
+    background-color: transparent;
+    height: 140px; /* Kart yüksekliği */
+    cursor: pointer;
+    position: relative;
+    /* 3D Dönüş Ayarları */
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+
+/* Karta tıklanınca dönmesi için sınıf */
+.mem-card.flip {
+    transform: rotateY(180deg);
+}
+
+/* Eşleşen kart */
+.mem-card.matched {
+    /* Yeşil parlama efekti */
+    animation: glow-pulse 1.5s infinite alternate;
+}
+.mem-card.matched .mem-front {
+    border-color: #10b981;
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+}
+
+/* Kartın Önü ve Arkası (Ortak Özellikler) */
+.mem-front, .mem-back {
+    width: 100%; height: 100%;
+    position: absolute;
+    border-radius: 15px;
+    display: flex; justify-content: center; align-items: center;
+    backface-visibility: hidden; /* Arka yüzü gizle */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    font-weight: bold; font-size: 1.2rem;
+    padding: 10px; text-align: center;
+    user-select: none;
+}
+
+/* ÖN YÜZ (İçerik - Başlangıçta gizli) */
+.mem-front {
+    background: linear-gradient(135deg, #1f2937, #111827);
+    color: white;
+    transform: rotateY(180deg); /* Arkada başlar */
+    border: 2px solid rgba(255,255,255,0.1);
+    overflow: hidden;
+}
+
+/* ARKA YÜZ (Soru İşareti - Başlangıçta görünen) */
+.mem-back {
+    background: linear-gradient(135deg, #8b5cf6, #6d28d9); /* Mor Gradyan */
+    color: rgba(255,255,255,0.8);
+    font-size: 3rem;
+    border: 2px solid rgba(139, 92, 246, 0.5);
+    display: flex; flex-direction: column; gap:5px;
+}
+.mem-back::after {
+    content: 'BRAIN';
+    font-size: 0.8rem; letter-spacing: 2px; opacity: 0.7;
+}
+
+/* Kart İçindeki Resim */
+.mem-img {
+    width: 100%; height: 100%;
+    object-fit: cover; /* Resmi kutuya sığdır */
+    border-radius: 10px;
+}
+
+/* Parlama Animasyonu */
+@keyframes glow-pulse {
+    from { transform: rotateY(180deg) scale(1); }
+    to { transform: rotateY(180deg) scale(1.05); }
+}

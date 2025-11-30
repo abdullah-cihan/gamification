@@ -1,0 +1,44 @@
+/* =========================================
+   css/games/hangman.css - GÜNCELLENDİ
+   ========================================= */
+
+.hangman-area { text-align: center; max-width: 800px; margin: 0 auto; }
+
+/* SVG Çizimi (Neon Efekt) */
+.hangman-drawing {
+    height: 250px; stroke: #fbbf24; stroke-width: 5; fill: none;
+    filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.5)); /* Sarı neon */
+    margin-bottom: 30px;
+}
+
+/* Klavye Düzeni (Mobil Dostu) */
+.keyboard { 
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; 
+    margin-top: 40px;
+}
+
+.key {
+    width: 45px; height: 55px;
+    background: #1e293b;
+    border: 1px solid #334155;
+    color: white; border-radius: 8px;
+    font-weight: bold; font-size: 1.2rem;
+    cursor: pointer; transition: 0.1s;
+    box-shadow: 0 4px 0 #0f172a; /* 3D butonu hissi */
+}
+
+.key:active {
+    transform: translateY(4px);
+    box-shadow: none;
+}
+
+.key:hover:not(:disabled) {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+.key:disabled {
+    opacity: 0.3; cursor: not-allowed;
+    box-shadow: none; transform: translateY(4px);
+    background: #0f172a;
+}

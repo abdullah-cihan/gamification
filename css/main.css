@@ -1,0 +1,10 @@
+/* css/main.css */
+
+/* Çekirdek (Core) Dosyalar */
+@import url('core/variables.css');
+@import url('core/base.css');
+@import url('core/layout.css');
+@import url('core/components.css');
+
+/* Not: Oyun stilleri (games/...) index.html'den ayrıca yükleniyor. */
+

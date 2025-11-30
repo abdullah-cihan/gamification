@@ -1,0 +1,10 @@
+/* css/core/variables.css */
+:root {
+    --bg-dark: #0f172a;
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --text-light: #f8fafc;
+    --primary: #6366f1;
+    --secondary: #ec4899;
+    --accent: #10b981;
+    --danger: #ef4444;
+}

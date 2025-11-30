@@ -1,0 +1,131 @@
+/* =========================================
+   css/core/layout.css - YERLEŞİM VE İSKELET
+   ========================================= */
+
+/* --- NAVİGASYON --- */
+.navbar {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 15px 30px;
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    
+    /* Buzlu Cam Efekti (Tüm tarayıcılar için) */
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    
+    position: sticky; 
+    top: 0; 
+    z-index: 100;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.nav-brand {
+    font-family: 'Righteous', cursive; 
+    font-size: 1.6rem;
+    background: linear-gradient(to right, #818cf8, #c084fc);
+    
+    /* Metin Gradyanı */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    letter-spacing: 1px;
+    text-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+}
+
+/* --- EKRANLAR --- */
+.screen {
+    display: none; 
+    padding: 20px; 
+    flex: 1;
+    animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.screen.active { 
+    display: block; 
+}
+
+/* --- HUB GRID (Giriş Ekranı) --- */
+.hub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px; 
+    max-width: 900px; 
+    margin: 0 auto;
+}
+
+.hub-title { 
+    text-align: center; 
+    font-family: 'Righteous'; 
+    margin-bottom: 40px; 
+    font-size: 2.2rem; 
+    background: linear-gradient(to bottom, #fff, #94a3b8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* --- OYUN ÜST BAR --- */
+.game-top-bar { 
+    margin-bottom: 25px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    gap: 10px;
+}
+
+/* --- EDİTÖR KONTEYNER VE BAŞLIK --- */
+.editor-container { 
+    max-width: 900px; 
+    margin: 30px auto; 
+    padding: 0 20px; 
+}
+
+#editor-title {
+    color: #ffffff; 
+    text-align: center;
+    font-family: 'Righteous', cursive;
+    font-size: 2.5rem; /* Büyük ve okunaklı */
+    margin-bottom: 30px;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    letter-spacing: 1px;
+}
+
+/* --- GELİŞMİŞ TOOLBAR (ARAÇ ÇUBUĞU) --- */
+.toolbar {
+    background: rgba(30, 41, 59, 0.8);
+    padding: 20px; 
+    border-radius: 15px; 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 15px; 
+    margin-bottom: 25px;
+    border: 1px solid rgba(255,255,255,0.1);
+    align-items: center;
+}
+
+.toolbar-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.flex-grow {
+    flex-grow: 1;
+    min-width: 300px;
+}
+
+.input-with-btn {
+    display: flex;
+    width: 100%;
+    gap: 5px;
+}
+
+/* --- OYUNU BAŞLAT BUTONU KONUMU --- */
+.play-action {
+    margin-top: 40px;
+    text-align: center;
+    padding-bottom: 60px; /* Alt boşluk artırıldı */
+}

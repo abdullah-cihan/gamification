@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AFSÜ UZEM Game Hub</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Righteous&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/games/quiz.css">
+    <link rel="stylesheet" href="css/games/hangman.css">
+    <link rel="stylesheet" href="css/games/match.css">
+    <link rel="stylesheet" href="css/games/memory.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand">🎮 AFSÜ UZEM GAME HUB</div>
+        <button class="home-btn" style="display:none;" onclick="if(confirm('Ana sayfaya dönmek istiyor musun?')) goToScreen('screen-hub')">🏠 Oyun Seçimi</button>
+    </nav>
+
+    <div id="screen-hub" class="screen active">
+        <h2 class="hub-title">Hangi Oyunu Hazırlamak İstersin?</h2>
+        <div class="hub-grid">
+            <div class="game-card" onclick="openEditor('quiz')">
+                <div class="card-img">🏆</div>
+                <div class="card-body"><div class="card-title">Bilgi Yarışması</div><p>Çoktan seçmeli veya klasik sorular.</p></div>
+            </div>
+            <div class="game-card" onclick="openEditor('hangman')">
+                <div class="card-img">🤠</div>
+                <div class="card-body"><div class="card-title">Adam Asmaca</div><p>Kelime tahmin oyunu.</p></div>
+            </div>
+            <div class="game-card" onclick="openEditor('match')">
+                <div class="card-img" style="background: linear-gradient(135deg, #f59e0b, #d97706);">🧩</div>
+                <div class="card-body"><div class="card-title">Kelime Eşleştirme</div><p>İngilizce - Türkçe eşleştirme.</p></div>
+            </div>
+            
+            <div class="game-card" onclick="openEditor('memory')">
+                <div class="card-img" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);">🧠</div>
+                <div class="card-body"><div class="card-title">Hafıza Oyunu</div><p>Görsel hafıza kartları.</p></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="screen-editor" class="screen">
+        <div class="editor-container">
+            <h2 id="editor-title">Oyun Hazırlanıyor...</h2>
+            
+            <div class="toolbar">
+                <div class="toolbar-group">
+                    <button class="btn btn-dl btn-mini" onclick="downloadTemplate()" title="Taslak İndir">📥 Taslak</button>
+                    <input type="file" id="excel-upload" accept=".xlsx" hidden onchange="handleExcel(this)">
+                    <button class="btn btn-up btn-mini" onclick="document.getElementById('excel-upload').click()" title="Excel Yükle">📂 Yükle</button>
+                </div>
+
+                <div class="toolbar-group flex-grow">
+                    <div class="input-with-btn">
+                        <input type="text" id="sheet-id-input" class="form-input" placeholder="Google Sheet Linki...">
+                        <button class="btn btn-green" style="background:#f59e0b; white-space:nowrap;" onclick="generateShareLink()">🔗 LİNK</button>
+                    </div>
+                </div>
+
+                <div class="toolbar-group">
+                    <div class="converter-box">
+                        <select id="convert-select">
+                            <option value="quiz">🏆 Quiz</option>
+                            <option value="hangman">🤠 Adam Asmaca</option>
+                            <option value="match">🧩 Eşleştirme</option>
+                            <option value="memory">🧠 Hafıza</option>
+                        </select>
+                        <button class="btn btn-up btn-mini" onclick="convertGame()">Çevir ➡</button>
+                    </div>
+                </div>
+
+                <div class="toolbar-group" style="width:100%; justify-content:space-between; border-top:1px solid rgba(255,255,255,0.1); padding-top:10px;">
+                    <button class="btn btn-green" onclick="addEmptyItem()">+ Yeni Soru</button>
+                    <button class="btn btn-red" onclick="clearAllData()">🗑️ Temizle</button>
+                </div>
+            </div>
+
+            <div id="editor-list"></div>
+
+            <div class="play-action">
+                <button class="btn btn-play" onclick="startGame()">▶ OYUNU BAŞLAT</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="screen-quiz" class="screen game-screen">
+        <div class="game-top-bar"><button class="btn-back" onclick="openEditor('quiz')">⚙ Düzenle</button></div>
+        <div id="quiz-board" class="quiz-grid"></div>
+        <div class="score-bar">
+            <div id="score-panel-team" style="display:flex; gap:40px;">
+                <div class="team-a-box">Takım A: <strong id="score-a">0</strong> <button onclick="modScore('a', 100)">+</button></div>
+                <div class="team-b-box">Takım B: <strong id="score-b">0</strong> <button onclick="modScore('b', 100)">+</button></div>
+            </div>
+            <div id="score-panel-single" style="display:none; color:#fbbf24; font-size:1.5rem; font-family:'Righteous';">Toplam: <strong id="score-single">0</strong> XP</div>
+        </div>
+    </div>
+
+    <div id="screen-hangman" class="screen game-screen">
+        <div class="game-top-bar"><button class="btn-back" onclick="openEditor('hangman')">⚙ Düzenle</button></div>
+        <div class="hangman-area">
+            <svg class="hangman-drawing" viewBox="0 0 200 200">
+                <line x1="20" y1="190" x2="180" y2="190" /><line x1="50" y1="190" x2="50" y2="20" /><line x1="50" y1="20" x2="120" y2="20" /><line x1="120" y1="20" x2="120" y2="40" /><circle id="hang-head" cx="120" cy="60" r="20" style="display:none" /><line id="hang-body" x1="120" y1="80" x2="120" y2="140" style="display:none" /><line id="hang-larm" x1="120" y1="100" x2="90" y2="130" style="display:none" /><line id="hang-rarm" x1="120" y1="100" x2="150" y2="130" style="display:none" /><line id="hang-lleg" x1="120" y1="140" x2="100" y2="180" style="display:none" /><line id="hang-rleg" x1="120" y1="140" x2="140" y2="180" style="display:none" />
+            </svg>
+            <div style="text-align:right;"><button class="btn btn-up small-btn" onclick="nextHangmanWord()">Sonraki ➡</button></div>
+            <div class="hint-box">💡 İpucu: <span id="hang-hint">...</span></div>
+            <div class="word-display" id="hang-word">_ _ _ _ _</div>
+            <div class="keyboard" id="hang-keyboard"></div>
+            <h2 id="hang-msg"></h2>
+        </div>
+    </div>
+
+    <div id="screen-match" class="screen game-screen">
+        <div class="game-top-bar">
+            <button class="btn-back" onclick="openEditor('match')">⚙ Düzenle</button>
+            <div class="timer-badge">⏳ <span id="match-timer">00:00</span></div>
+        </div>
+        <div id="match-area" class="match-grid"></div>
+        <div id="match-gameover" class="modal-overlay">
+            <div class="modal-box">
+                <h1>TEBRİKLER! 🎉</h1>
+                <p>Tüm kelimeleri eşleştirdin.</p>
+                <h2 style="color:#f59e0b;">Süre: <span id="final-time"></span></h2>
+                <button class="btn btn-green" onclick="restartMatch()">🔄 Tekrar Oyna</button>
+                <button class="btn btn-red" onclick="openEditor('match')">Çıkış</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="screen-memory" class="screen game-screen">
+        <div class="game-top-bar">
+            <button class="btn-back" onclick="openEditor('memory')">⚙ Düzenle</button>
+            <div style="display:flex; gap:15px;">
+                <div class="timer-badge" style="font-size:1.2rem;">⏳ <span id="mem-timer">00:00</span></div>
+                <div class="timer-badge" style="font-size:1.2rem; border-color:#8b5cf6; color:#8b5cf6;">🔄 <span id="mem-moves">0</span></div>
+            </div>
+        </div>
+        <div id="memory-board" class="memory-grid"></div>
+        <div id="memory-gameover" class="modal-overlay">
+            <div class="modal-box">
+                <h1>HAFIZA KRALI! 🧠</h1>
+                <p>Tüm eşleri buldun.</p>
+                <div style="display:flex; justify-content:center; gap:20px; color:#cbd5e1;">
+                    <div>⏱️ <span id="final-mem-time"></span></div>
+                    <div>🔄 <span id="final-mem-moves"></span></div>
+                </div>
+                <button class="btn btn-green" onclick="restartMemory()">🔄 Tekrar Oyna</button>
+                <button class="btn btn-red" onclick="openEditor('memory')">Çıkış</button>
+            </div>
+        </div>
+    </div>
+    
+
+    <button id="global-sound-btn" class="fixed-sound-btn" style="display:none;" onclick="toggleGlobalSound(this)">🔊</button>
+
+    <div class="modal-overlay" id="q-modal">
+        <div class="modal-box">
+            <h2 id="m-points"></h2>
+            <h1 id="m-question"></h1>
+            <div id="m-options-area"></div> 
+            <div id="m-answer"></div>
+            <button class="btn btn-up" id="btn-reveal" onclick="revealQuizAnswer()">Cevabı Göster</button>
+            <button class="btn btn-dl btn-red" onclick="closeModal()">Kapat</button>
+        </div>
+    </div>
+    
+
+    <script src="js/games/quiz.js"></script>
+    <script src="js/games/hangman.js"></script>
+    <script src="js/games/match.js"></script>
+    <script src="js/games/memory.js"></script>
+    <script type="module" src="js/main.js"></script>
+
+    <audio id="sound-correct" src="https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg"></audio>
+    <audio id="sound-wrong" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
+    <audio id="sound-win" src="https://actions.google.com/sounds/v1/cartoon/clown_horn_squeeze.ogg"></audio>
+    <audio id="sound-click" src="https://actions.google.com/sounds/v1/cartoon/pop.ogg"></audio>
+
+</body>
+</html>

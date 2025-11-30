@@ -1,0 +1,12 @@
+css/
+├── main.css           (Sadece YÖNETİCİ dosya olacak, kod içermeyecek)
+├── core/              (YENİ KLASÖR)
+│   ├── variables.css  (Renkler ve Fontlar)
+│   ├── base.css       (Genel body ayarları ve animasyonlar)
+│   ├── layout.css     (Navbar, Grid düzenleri, Konumlandırma)
+│   └── components.css (Butonlar, Kartlar, Modallar, Inputlar)
+└── games/             (Oyun stilleri - Bunlar aynen kalacak)
+    ├── quiz.css
+    ├── hangman.css
+    ├── match.css
+    └── memory.css
